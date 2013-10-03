@@ -1,0 +1,22 @@
+{
+  "name": "reducio",
+  "version": "0.0.1",
+  "description": "stream that performs a foldl (reduce) operation over an entire stream without buffering elements as they arrive",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/minuteman3/reducio.git"
+  },
+  "keywords": [
+    "foldl",
+    "reduce",
+    "inject",
+    "stream"
+  ],
+  "author": "Miles McGuire",
+  "license": "MIT",
+  "readmeFilename": "README.md"
+}
