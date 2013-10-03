@@ -5,19 +5,19 @@ module.exports = function reducio(fold, acc, options) {
     var stream = new Stream(),
         emitProgress = (options && options.emitProgress) || false,
         progressFreq = (options && options.progressFreq) || 1,
-        writeCount = 0;
+        writeCount = 0,
+        partial = acc;
     stream.readable = stream.writable = true;
     stream.paused = false;
-    stream.acc = acc;
 
     stream.write = function (data) {
         if (acc === undefined) {
-            acc = data;
+            partial = data;
         } else {
-            stream.acc = fold.apply(stream, [stream.acc, data]);
+            partial = fold.apply(stream, [partial, data]);
         }
         if (stream.emitProgress && (progressFreq === 1 || writeCount % progressFreq === 0)) {
-            stream.emit('data', stream.acc);
+            stream.emit('data', partial);
         }
         return !stream.paused;
     };
@@ -26,10 +26,10 @@ module.exports = function reducio(fold, acc, options) {
         if (data) {
             stream.write(data);
         }
-        stream.emit('data', stream.acc);
+        stream.emit('data', partial);
         stream.emit('end');
         return true;
     };
 
     return stream;
-}
+};
